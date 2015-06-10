@@ -1,5 +1,7 @@
 <?php
 
+use App\Campus;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -20,4 +22,12 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::resource('campus', 'CampusController');
+Route::group(['prefix' => 'admin'], function()
+{
+	Route::resource('campus', 'CampusController');	
+	Route::get('prueba', function()
+	{
+		$campus = Campus::lists('nombre', 'id');
+		return Form::select('campus_id', $campus);
+	});
+});

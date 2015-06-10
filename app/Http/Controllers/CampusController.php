@@ -3,7 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Campus;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+use Request;
 
 class CampusController extends Controller {
 
@@ -36,7 +37,9 @@ class CampusController extends Controller {
 	 */
 	public function store()
 	{
-		$data = Input::
+		$data = Request::only(['nombre', 'direccion', 'latitud', 'longitud', 'descripcion', 'rut_encargado']);
+		$campus = Campus::create($data);
+		return dd($campus);
 	}
 
 	/**
@@ -62,7 +65,11 @@ class CampusController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$campus = Campus::find($id);
+		if($campus)
+			return view('campus.edit')->with('campus', $campus);
+		else
+			abort(404);
 	}
 
 	/**
@@ -73,7 +80,11 @@ class CampusController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		$campus = Campus::find($id);
+		$data = Request::only(['nombre', 'direccion', 'latitud', 'longitud', 'descripcion', 'rut_encargado']);
+		$campus->fill($data); // Recordar validar antes
+		$campus->save();
+		return redirect()->route('campus.show', array($campus->id));
 	}
 
 	/**
@@ -84,7 +95,9 @@ class CampusController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		$campus = Campus::find($id);
+		$campus->delete();
+		return redirect()->route('campus.index');
 	}
 
 }
