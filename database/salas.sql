@@ -197,10 +197,11 @@ CREATE TABLE cursos (
 	asignatura_id bigint NOT NULL REFERENCES asignaturas(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	docente_id int NOT NULL REFERENCES docentes(id) ON UPDATE CASCADE ON DELETE CASCADE,
         semestre int NOT NULL,
-	anio int NOT NULL,
+        anio int NOT NULL,
+	seccion int NOT NULL,
 	created_at timestamp NOT NULL DEFAULT NOW(),
 	updated_at timestamp NOT NULL DEFAULT NOW(),
-	UNIQUE (asignatura_id, docente_id, semestre, anio),
+	UNIQUE (asignatura_id, docente_id, semestre, anio, seccion),
 	PRIMARY KEY (id)
 );
 
